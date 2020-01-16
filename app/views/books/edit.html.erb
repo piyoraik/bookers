@@ -1,5 +1,13 @@
 <h1>編集画面</h1>
 <%= form_for(@book) do |book| %>
+    <% if @book.errors.any? %>
+        <h3><%= @book.errors.count %>error prohibited this book form being saved:</h3>
+        <ul>
+            <% @book.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+            <% end %>
+        </ul>
+    <% end %>
     <div>
     <h4>タイトル</h4>
     <%= book.text_field :title %>
