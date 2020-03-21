@@ -51,7 +51,7 @@ namespace :deploy do
   task :db_migrate do
     on roles(:app) do |host|
       with rails_env: fetch(:rails_env) do
-        within current_path do
+        within release_path do
           execute :bundle, :exec, :rake, 'db:migrate'
         end
       end
@@ -126,7 +126,6 @@ $ mkdir shared
 $ mkdir shared/config
 $ cp config/master.key shared/config/
 $ cp .env shared/
-$ mkdir current
 ```
 
 Nginxの再起動
@@ -142,65 +141,3 @@ Nginxの再起動
 ```sh
 $ bundle exec cap production deploy
 ```
-
-実行すると以下のエラーがでます。
-
-```
-** DEPLOY FAILED
-** Refer to log/capistrano.log for details. Here are the last 20 lines:
-
-
-  INFO [bf0db8d6] Finished in 0.050 seconds with exit status 0 (successful).
-
- DEBUG [3965df6a] Running /usr/bin/env ls /home/ec2-user/bookers/releases/20200321062912/public/assets/.sprockets-manifest* as ec2-user@54.238.241.82
-
- DEBUG [3965df6a] Command: cd /home/ec2-user/bookers/releases/20200321062912 && ( export RBENV_ROOT="$HOME/.rbenv" RBENV_VERSION="2.5.7" ; /usr/bin/env ls /home/ec2-user/bookers/releases/20200321062912/public/assets/.sprockets-manifest* )
-
- DEBUG [3965df6a] 	/home/ec2-user/bookers/releases/20200321062912/public/assets/.sprockets-manifest-5f93083ef21740050f8e902f4195294f.json
-
- DEBUG [3965df6a] Finished in 0.053 seconds with exit status 0 (successful).
-
- DEBUG [c3f115ed] Running /usr/bin/env ls /home/ec2-user/bookers/releases/20200321062912/public/assets/.sprockets-manifest* as ec2-user@54.238.241.82
-
- DEBUG [c3f115ed] Command: cd /home/ec2-user/bookers/releases/20200321062912 && ( export RBENV_ROOT="$HOME/.rbenv" RBENV_VERSION="2.5.7" ; /usr/bin/env ls /home/ec2-user/bookers/releases/20200321062912/public/assets/.sprockets-manifest* )
-
- DEBUG [c3f115ed] 	/home/ec2-user/bookers/releases/20200321062912/public/assets/.sprockets-manifest-5f93083ef21740050f8e902f4195294f.json
-
- DEBUG [c3f115ed] Finished in 0.052 seconds with exit status 0 (successful).
-
-  INFO [5a7b0e3a] Running /usr/bin/env cp /home/ec2-user/bookers/releases/20200321062912/public/assets/.sprockets-manifest-5f93083ef21740050f8e902f4195294f.json /home/ec2-user/bookers/releases/20200321062912/assets_manifest_backup as ec2-user@54.238.241.82
-
- DEBUG [5a7b0e3a] Command: cd /home/ec2-user/bookers/releases/20200321062912 && ( export RBENV_ROOT="$HOME/.rbenv" RBENV_VERSION="2.5.7" ; /usr/bin/env cp /home/ec2-user/bookers/releases/20200321062912/public/assets/.sprockets-manifest-5f93083ef21740050f8e902f4195294f.json /home/ec2-user/bookers/releases/20200321062912/assets_manifest_backup )
-
-  INFO [5a7b0e3a] Finished in 0.053 seconds with exit status 0 (successful).
-
-  INFO [8444a66e] Running /usr/bin/env ln -s /home/ec2-user/bookers/releases/20200321062912 /home/ec2-user/bookers/releases/current as ec2-user@54.238.241.82
-
- DEBUG [8444a66e] Command: ( export RBENV_ROOT="$HOME/.rbenv" RBENV_VERSION="2.5.7" ; /usr/bin/env ln -s /home/ec2-user/bookers/releases/20200321062912 /home/ec2-user/bookers/releases/current )
-
-  INFO [8444a66e] Finished in 0.054 seconds with exit status 0 (successful).
-
-  INFO [7028c5ca] Running /usr/bin/env mv /home/ec2-user/bookers/releases/current /home/ec2-user/bookers as ec2-user@54.238.241.82
-
- DEBUG [7028c5ca] Command: ( export RBENV_ROOT="$HOME/.rbenv" RBENV_VERSION="2.5.7" ; /usr/bin/env mv /home/ec2-user/bookers/releases/current /home/ec2-user/bookers )
-
- DEBUG [7028c5ca] 	mv:
-
- DEBUG [7028c5ca] 	cannot overwrite directory ‘/home/ec2-user/bookers/current’ with non-directory
-
- DEBUG [7028c5ca]
-```
-
-### EC2インスタンスで実行
-
-```sh
-$ rm -rf current
-mv /home/ec2-user/アプリ名/releases/current /home/ec2-user/アプリ名
-```
-
-再度Vagrantで以下を実行しデプロイ完了
-
-```sh
-$ bundle exec cap production deploy
-```
-
