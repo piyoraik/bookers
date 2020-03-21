@@ -60,7 +60,7 @@
 #     # password: "please use keys"
 #   }
 
-# server '13.114.45.179', user: 'ec2-user', roles: %w{app web db}
+# server '54.238.241.82', user: 'ec2-user', roles: %w{app web db}
 
 # set :stage, :production
 # set :rails_env, 'production'
@@ -70,7 +70,7 @@
 #  keys: [File.expand_path('~/.ssh/dmm-ec2.pem)')]
 # }
 
-server '13.114.45.179',
+server '13.115.112.85',
    user: "ec2-user",
    roles: %w{web db app},
    ssh_options: {

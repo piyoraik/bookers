@@ -79,3 +79,8 @@ end
 gem 'bcrypt', '~> 3.1.7'
 gem 'ed25519'
 gem 'bcrypt_pbkdf'
+
+gem 'capistrano'
+gem 'capistrano-rails'
+gem 'capistrano3-puma'
+gem 'capistrano-rbenv'

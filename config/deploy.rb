@@ -3,11 +3,6 @@ lock "~> 3.12.1"
 
 set :application, "bookers"
 set :repo_url, "git@github.com:piyoraik/bookers.git"
-set :ssh_options, {
-    forward_agent: true,
-    user: fetch(:user),
-    keys: %w(~/.ssh/id_rsa)
-  }
 
 set :deploy_to, "/home/ec2-user/bookers"
 set :rbenv_ruby, '2.5.7'
@@ -18,7 +13,7 @@ namespace :deploy do
   task :db_migrate do
     on roles(:app) do |host|
       with rails_env: fetch(:rails_env) do
-        within current_path do
+        within release_path do
           execute :bundle, :exec, :rake, 'db:migrate'
         end
       end
