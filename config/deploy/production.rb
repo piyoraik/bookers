@@ -70,7 +70,7 @@
 #  keys: [File.expand_path('~/.ssh/dmm-ec2.pem)')]
 # }
 
-server '13.115.112.85',
+server '54.95.3.37',
    user: "ec2-user",
    roles: %w{web db app},
    ssh_options: {
